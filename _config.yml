@@ -1,0 +1,3 @@
+theme: jekyll-theme-cayman
+title: Dropwizard Resource Proxy
+description: A dropwizard bundle to proxy resource request

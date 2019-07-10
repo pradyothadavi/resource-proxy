@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"prebuild_index":false,"separator":"[\\s\\-]+"},"docs":[{"location":"","text":"resource-proxy A dropwizard bundle to proxy resource request","title":"Introduction"},{"location":"#resource-proxy","text":"A dropwizard bundle to proxy resource request","title":"resource-proxy"}]}
