@@ -1,0 +1,24 @@
+server:
+  type: default
+  applicationContextPath: /resource-proxy
+  adminContextPath: /admin
+  applicationConnectors:
+    - type: http
+      port: 19090
+  adminConnectors:
+    - type: http
+      port: 19091
+
+logging:
+
+  level: INFO
+
+  appenders:
+    - type: console
+
+resourceProxyBundleConfiguration:
+  resourceProxyConfigMap:
+    GET-demo/0: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/1","proxyEnabled": true}
+    POST-demo/3: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/4","proxyEnabled": true}
+    GET-demo/5: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/6","proxyEnabled": true}
+    PUT-demo/7: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/8","proxyEnabled": true}
