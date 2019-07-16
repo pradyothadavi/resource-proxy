@@ -5,10 +5,19 @@ application.
 
 ## Salient Features
 
-* Easy to integrate with the existing dropwizard application. No changes
-  code changes are required, except for registering the bundle in the
-  application. 
-
+* Integrating with an existing dropwizard application is a two step
+  process without code changes. 
+  
+  * Add resource proxy bundle to the dropwizard application class. 
+  * In the YAML configuration file of the application add the resource
+    paths which are to be proxied. 
+    
 * Optionally, enable Hystrix Circuit Breaker
 
 * Metrics for visibility
+
+## WIP Features
+
+* Gzip Compression
+
+* Dis/enable proxy for a given resource path

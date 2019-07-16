@@ -35,51 +35,26 @@ class.
 
 * Resource Proxy Configurations 
 ``` yaml
-server:
-  type: default
-  applicationContextPath: /resource-proxy
-  adminContextPath: /admin
-  applicationConnectors:
-    - type: http
-      port: 19090
-  adminConnectors:
-    - type: http
-      port: 19091
-
-logging:
-  level: INFO
-  appenders:
-    - type: console
-
-resourceProxyBundleConfiguration:
+esourceProxyBundleConfiguration:
+  # Specify Resource Proxy Configuration
   resourceProxyConfigMap:
-    GET-demo/0: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/1","proxyEnabled": true}
     POST-demo/3: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/4","proxyEnabled": true,
                   "connectTimeout": 2000}
     GET-demo/5: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/6","proxyEnabled": true,
                  "readTimeout": 2000}
     PUT-demo/7: {"host":"http://localhost:", "port": 19090,"path": "resource-proxy/demo/8","proxyEnabled": true}
 
+  # Dis/enable usage of Hystrix Circuit Breaker
+  hystrixEnabled: true
+
+  # Hystrix Circuit Breaker Properties
   resProxyHystrixProperties:
     commandExecutionProperties:
-      hystrix.command.POST-demo/3.execution.isolation.thread.timeoutInMilliseconds: 3000
-      hystrix.command.GET-demo/5.execution.isolation.thread.timeoutInMilliseconds: 3000
-      hystrix.command.PUT-demo/7.execution.isolation.thread.timeoutInMilliseconds: 3000
+      
     commandCircuitBreakerProperties:
-      hystrix.command.POST-demo/3.circuitBreaker.forceClosed: false
-      hystrix.command.GET-demo/5.circuitBreaker.forceClosed: false
-      hystrix.command.PUT-demo/7.circuitBreaker.forceClosed: false
+      
     threadPoolProperties:
-      hystrix.threadpool.POST-demo/3.coreSize: 10
-      hystrix.threadpool.POST-demo/3.maximumSize: 10
-      hystrix.threadpool.POST-demo/3.allowMaximumSizeToDivergeFromCoreSize: false
-      hystrix.threadpool.GET-demo/5.coreSize: 10
-      hystrix.threadpool.GET-demo/5.maximumSize: 10
-      hystrix.threadpool.GET-demo/5.allowMaximumSizeToDivergeFromCoreSize: false
-      hystrix.threadpool.PUT-demo/7.coreSize: 10
-      hystrix.threadpool.PUT-demo/7.maximumSize: 10
-      hystrix.threadpool.PUT-demo/7.allowMaximumSizeToDivergeFromCoreSize: false
-
+      
 ```
 
 ## Configurations
