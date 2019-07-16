@@ -20,4 +20,8 @@ application.
 
 * Gzip Compression
 
-* Dis/enable proxy for a given resource path
+* Dis/enable proxy for a given resource path on the fly without
+  application restart
+
+* Auto-failure over to local application in-cases where x% of requests
+  fail in last Y duration
