@@ -380,50 +380,25 @@ class.</li>
 <ul>
 <li>Resource Proxy Configurations </li>
 </ul>
-<pre><code class="yaml">server:
-  type: default
-  applicationContextPath: /resource-proxy
-  adminContextPath: /admin
-  applicationConnectors:
-    - type: http
-      port: 19090
-  adminConnectors:
-    - type: http
-      port: 19091
-
-logging:
-  level: INFO
-  appenders:
-    - type: console
-
-resourceProxyBundleConfiguration:
+<pre><code class="yaml">esourceProxyBundleConfiguration:
+  # Specify Resource Proxy Configuration
   resourceProxyConfigMap:
-    GET-demo/0: {&quot;host&quot;:&quot;http://localhost:&quot;, &quot;port&quot;: 19090,&quot;path&quot;: &quot;resource-proxy/demo/1&quot;,&quot;proxyEnabled&quot;: true}
     POST-demo/3: {&quot;host&quot;:&quot;http://localhost:&quot;, &quot;port&quot;: 19090,&quot;path&quot;: &quot;resource-proxy/demo/4&quot;,&quot;proxyEnabled&quot;: true,
                   &quot;connectTimeout&quot;: 2000}
     GET-demo/5: {&quot;host&quot;:&quot;http://localhost:&quot;, &quot;port&quot;: 19090,&quot;path&quot;: &quot;resource-proxy/demo/6&quot;,&quot;proxyEnabled&quot;: true,
                  &quot;readTimeout&quot;: 2000}
     PUT-demo/7: {&quot;host&quot;:&quot;http://localhost:&quot;, &quot;port&quot;: 19090,&quot;path&quot;: &quot;resource-proxy/demo/8&quot;,&quot;proxyEnabled&quot;: true}
 
+  # Dis/enable usage of Hystrix Circuit Breaker
+  hystrixEnabled: true
+
+  # Hystrix Circuit Breaker Properties
   resProxyHystrixProperties:
     commandExecutionProperties:
-      hystrix.command.POST-demo/3.execution.isolation.thread.timeoutInMilliseconds: 3000
-      hystrix.command.GET-demo/5.execution.isolation.thread.timeoutInMilliseconds: 3000
-      hystrix.command.PUT-demo/7.execution.isolation.thread.timeoutInMilliseconds: 3000
+
     commandCircuitBreakerProperties:
-      hystrix.command.POST-demo/3.circuitBreaker.forceClosed: false
-      hystrix.command.GET-demo/5.circuitBreaker.forceClosed: false
-      hystrix.command.PUT-demo/7.circuitBreaker.forceClosed: false
+
     threadPoolProperties:
-      hystrix.threadpool.POST-demo/3.coreSize: 10
-      hystrix.threadpool.POST-demo/3.maximumSize: 10
-      hystrix.threadpool.POST-demo/3.allowMaximumSizeToDivergeFromCoreSize: false
-      hystrix.threadpool.GET-demo/5.coreSize: 10
-      hystrix.threadpool.GET-demo/5.maximumSize: 10
-      hystrix.threadpool.GET-demo/5.allowMaximumSizeToDivergeFromCoreSize: false
-      hystrix.threadpool.PUT-demo/7.coreSize: 10
-      hystrix.threadpool.PUT-demo/7.maximumSize: 10
-      hystrix.threadpool.PUT-demo/7.allowMaximumSizeToDivergeFromCoreSize: false
 
 </code></pre>
 
