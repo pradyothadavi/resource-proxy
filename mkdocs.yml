@@ -6,6 +6,12 @@ site_author: Pradyot H Adavi
 
 theme:
   name: material
+  palette:
+    primary: 'blue'
+    accent: 'blue'
+    font:
+      text: 'Proxima Nova'
+      code: 'Proxima Nova'
 
 nav:
   - 'Introduction': index.md
