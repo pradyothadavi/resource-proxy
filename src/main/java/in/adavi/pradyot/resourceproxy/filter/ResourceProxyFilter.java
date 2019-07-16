@@ -2,6 +2,8 @@ package in.adavi.pradyot.resourceproxy.filter;
 
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyConfig;
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyService;
+import in.adavi.pradyot.resourceproxy.hystrix.ResProxyHystrixProperties;
+import in.adavi.pradyot.resourceproxy.hystrix.ResourceProxyRequestCommand;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -18,20 +20,24 @@ import java.util.Map;
  * @author Pradyot H Adavi
  */
 @Data
-@Slf4j
 @AllArgsConstructor
 public class ResourceProxyFilter implements ContainerRequestFilter {
 	
 	private Map<String, ResourceProxyConfig> resourceProxyConfigMap;
 	private ResourceProxyService resourceProxyService;
 	private ResourceInfo resourceInfo;
+	private ResProxyHystrixProperties resProxyHystrixProperties;
 	
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		UriInfo uri = requestContext.getUriInfo();
 		String requestMethod = requestContext.getMethod();
-		ResourceProxyConfig resourceProxyConfig = resourceProxyConfigMap.get(requestMethod+"-"+uri.getPath());
+		String key = requestMethod+"-"+uri.getPath();
+		ResourceProxyConfig resourceProxyConfig = resourceProxyConfigMap.get(key);
 		if(null != resourceProxyConfig && resourceProxyConfig.isProxyEnabled()){
-			Response response = resourceProxyService.proxyResource(resourceProxyConfig,requestContext,resourceInfo);
+			Response response =
+					new ResourceProxyRequestCommand(resourceProxyConfig.getHost(),key,key,resProxyHystrixProperties,
+							resourceProxyService, resourceProxyConfig,requestContext,resourceInfo).execute();
+//			Response response = resourceProxyService.proxyResource(resourceProxyConfig,requestContext,resourceInfo);
 			requestContext.abortWith(response);
 		}
 	}

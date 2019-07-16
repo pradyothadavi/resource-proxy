@@ -78,6 +78,7 @@ public class ResProxySimpleDemoResource {
 	@GET
 	@Path("/6")
 	public Response demo6(@QueryParam("msg")String msg){
+		
 		SimpleResponse simpleResponse = new SimpleResponse();
 		simpleResponse.setResponseMsg("proxy response "+msg);
 		return Response.ok(simpleResponse).build();

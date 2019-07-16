@@ -27,3 +27,5 @@ target/
 resource-proxy.iml
 
 .idea/
+
+*.iml

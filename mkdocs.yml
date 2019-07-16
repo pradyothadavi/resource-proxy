@@ -1,0 +1,11 @@
+site_name: Dropwizard Resource Proxy
+site_url: https://github.com/pradyothadavi/resource-proxy
+site_description: A dropwizard bundle to proxy requests to resource(s)
+repo_url: https://github.com/pradyothadavi/resource-proxy
+site_author: Pradyot H Adavi
+
+theme:
+  name: material
+
+nav:
+  - 'Introduction': index.md

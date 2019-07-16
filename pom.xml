@@ -28,9 +28,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/pradyothadavi/ratelimiter.git</connection>
-        <developerConnection>scm:git:ssh://github.com:pradyothadavi/ratelimiter.git</developerConnection>
-        <url>https://github.com/pradyothadavi/ratelimiter/tree/master</url>
+        <connection>scm:git:git://github.com/pradyothadavi/resource-proxy.git</connection>
+        <developerConnection>scm:git:ssh://github.com:pradyothadavi/resource-proxy.git</developerConnection>
+        <url>https://github.com/pradyothadavi/resource-proxy/tree/master</url>
     </scm>
 
     <distributionManagement>
@@ -88,6 +88,42 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+            <version>1.5.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-metrics-event-stream</artifactId>
+            <version>1.5.9</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                    <artifactId>jackson-module-afterburner</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotationse</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-codahale-metrics-publisher</artifactId>
+            <version>1.5.18</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -138,6 +174,14 @@
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

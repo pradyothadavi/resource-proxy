@@ -1,7 +1,13 @@
 package in.adavi.pradyot.resourceproxy.core;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.annotation.ExceptionMetered;
+import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.client.ClientProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -24,20 +30,26 @@ import java.util.Map;
 /**
  * @author Pradyot H Adavi
  */
-@Slf4j
 public class ResourceProxyMgr implements ResourceProxyService  {
 	
+	private static final Logger log = LoggerFactory.getLogger(ResourceProxyMgr.class);
 	private Client client;
+	private MetricRegistry metricRegistry;
 	
 	@Inject
-	public ResourceProxyMgr(Client client) {
+	public ResourceProxyMgr(Client client, MetricRegistry metricRegistry) {
 		this.client = client;
+		this.metricRegistry = metricRegistry;
 	}
 	
+	@Timed
+	@ExceptionMetered
 	public Response proxyResource(ResourceProxyConfig resourceProxyConfig,
 	                              ContainerRequestContext containerRequestContext, ResourceInfo resourceInfo) {
 		
 		System.setProperty("sun.net.http.allowRestrictedHeaders","true");
+		client.property(ClientProperties.CONNECT_TIMEOUT,resourceProxyConfig.getConnectTimeout());
+		client.property(ClientProperties.READ_TIMEOUT,resourceProxyConfig.getReadTimeout());
 		
 		String targetUri = resourceProxyConfig.getHost()+resourceProxyConfig.getPort();
 		WebTarget webTarget = client.target(targetUri);
@@ -55,6 +67,7 @@ public class ResourceProxyMgr implements ResourceProxyService  {
 				.request(containerRequestContext.getMediaType())
 				.headers(headers);
 		
+		metricRegistry.counter(containerRequestContext.getUriInfo().getPath()+"-"+httpMethod).inc();
 		switch (httpMethod){
 			case GET:
 				response = invocationBuilder.get();

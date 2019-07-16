@@ -1,5 +1,6 @@
 package in.adavi.pradyot.resourceproxy.core;
 
+import in.adavi.pradyot.resourceproxy.hystrix.ResProxyHystrixProperties;
 import lombok.Data;
 
 import java.util.Map;
@@ -11,4 +12,6 @@ import java.util.Map;
 public class ResourceProxyBundleConfiguration {
 	
 	private Map<String,ResourceProxyConfig> resourceProxyConfigMap;
+	
+	private ResProxyHystrixProperties resProxyHystrixProperties;
 }

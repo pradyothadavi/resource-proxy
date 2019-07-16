@@ -2,6 +2,8 @@ package in.adavi.pradyot.resourceproxy;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.netflix.hystrix.contrib.codahalemetricspublisher.HystrixCodaHaleMetricsPublisher;
+import com.netflix.hystrix.strategy.HystrixPlugins;
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyBundleConfiguration;
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyModule;
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyRegistration;
@@ -20,9 +22,13 @@ public abstract class ResourceProxyBundle<T extends Configuration> implements Co
 		ResourceProxyBundleConfiguration resourceProxyBundleConfiguration = getRequestProxyConfiguration(configuration);
 		if(null != resourceProxyBundleConfiguration){
 			
-			Injector injector = Guice.createInjector(new ResourceProxyModule(resourceProxyBundleConfiguration));
+			Injector injector = Guice.createInjector(new ResourceProxyModule(resourceProxyBundleConfiguration,environment));
 			
 			environment.jersey().register(injector.getInstance(ResourceProxyRegistration.class));
+			
+			environment.getApplicationContext().addServlet(
+					"com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet", "/hystrix.stream");
+			HystrixPlugins.getInstance().registerMetricsPublisher(new HystrixCodaHaleMetricsPublisher(environment.metrics()));
 		}
 	}
 	
