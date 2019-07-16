@@ -12,7 +12,8 @@ import java.util.Map;
 public class ResourceProxyBundleConfiguration {
 	
 	/**
-	 * A map of keys in the format ( http_method-resource_path )
+	 * Format of the key ( http_method-resource_path )
+	 * A map of keys to {@link in.adavi.pradyot.resourceproxy.core.ResourceProxyConfig}
 	 */
 	private Map<String,ResourceProxyConfig> resourceProxyConfigMap;
 	
