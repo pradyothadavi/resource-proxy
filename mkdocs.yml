@@ -7,11 +7,12 @@ site_author: Pradyot H Adavi
 theme:
   name: material
   palette:
-    primary: 'blue'
-    accent: 'blue'
+    primary: 'cyan'
+    accent: 'cyan'
     font:
       text: 'Proxima Nova'
       code: 'Proxima Nova'
 
 nav:
   - 'Introduction': index.md
+  - 'Usage': usage.md

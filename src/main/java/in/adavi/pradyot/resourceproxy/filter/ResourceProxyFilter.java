@@ -1,5 +1,6 @@
 package in.adavi.pradyot.resourceproxy.filter;
 
+import in.adavi.pradyot.resourceproxy.core.ResourceProxyBundleConfiguration;
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyConfig;
 import in.adavi.pradyot.resourceproxy.core.ResourceProxyService;
 import in.adavi.pradyot.resourceproxy.hystrix.ResProxyHystrixProperties;
@@ -23,21 +24,27 @@ import java.util.Map;
 @AllArgsConstructor
 public class ResourceProxyFilter implements ContainerRequestFilter {
 	
-	private Map<String, ResourceProxyConfig> resourceProxyConfigMap;
 	private ResourceProxyService resourceProxyService;
 	private ResourceInfo resourceInfo;
-	private ResProxyHystrixProperties resProxyHystrixProperties;
+	private ResourceProxyBundleConfiguration resourceProxyBundleConfiguration;
 	
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		UriInfo uri = requestContext.getUriInfo();
 		String requestMethod = requestContext.getMethod();
 		String key = requestMethod+"-"+uri.getPath();
+		Map<String,ResourceProxyConfig> resourceProxyConfigMap =
+				resourceProxyBundleConfiguration.getResourceProxyConfigMap();
 		ResourceProxyConfig resourceProxyConfig = resourceProxyConfigMap.get(key);
 		if(null != resourceProxyConfig && resourceProxyConfig.isProxyEnabled()){
-			Response response =
-					new ResourceProxyRequestCommand(resourceProxyConfig.getHost(),key,key,resProxyHystrixProperties,
-							resourceProxyService, resourceProxyConfig,requestContext,resourceInfo).execute();
-//			Response response = resourceProxyService.proxyResource(resourceProxyConfig,requestContext,resourceInfo);
+			
+			Response response = null;
+			if(resourceProxyBundleConfiguration.isHystrixEnabled()){
+				response =
+						new ResourceProxyRequestCommand(resourceProxyConfig.getHost(),key,key,resourceProxyBundleConfiguration.getResProxyHystrixProperties(),
+								resourceProxyService, resourceProxyConfig,requestContext,resourceInfo).execute();
+			} else {
+				response = resourceProxyService.proxyResource(resourceProxyConfig,requestContext,resourceInfo);
+			}
 			requestContext.abortWith(response);
 		}
 	}

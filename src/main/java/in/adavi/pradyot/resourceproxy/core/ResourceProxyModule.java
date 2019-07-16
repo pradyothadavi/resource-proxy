@@ -53,4 +53,10 @@ public class ResourceProxyModule extends AbstractModule {
 	public ResProxyHystrixProperties providesResProxyHystrixProperties(){
 		return resourceProxyBundleConfiguration.getResProxyHystrixProperties();
 	}
+	
+	@Provides
+	@Singleton
+	public ResourceProxyBundleConfiguration providesResourceProxyBundleConfiguration(){
+		return resourceProxyBundleConfiguration;
+	}
 }

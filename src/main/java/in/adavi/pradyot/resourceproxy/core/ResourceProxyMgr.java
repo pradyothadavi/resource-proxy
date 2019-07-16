@@ -42,8 +42,6 @@ public class ResourceProxyMgr implements ResourceProxyService  {
 		this.metricRegistry = metricRegistry;
 	}
 	
-	@Timed
-	@ExceptionMetered
 	public Response proxyResource(ResourceProxyConfig resourceProxyConfig,
 	                              ContainerRequestContext containerRequestContext, ResourceInfo resourceInfo) {
 		
